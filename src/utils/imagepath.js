@@ -1,0 +1,1 @@
+export { default as profile } from "../assets/image/harry-1.jpg"
