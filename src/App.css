@@ -7,6 +7,81 @@
   pointer-events: none;
 }
 
+
+/* -------------------custom css------------------------ */
+
+
+.TodalRevenue {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  box-shadow: 0px 0px 12px 0px #00000021;
+  padding: 15px !important;
+  align-items: center !important;
+  
+}
+.TodalRevenue .content {
+  color: #585A76;
+  font-weight: 500;
+}
+/* .field_error {
+  margin-bottom: 15px !important; 
+} */
+.inputField {
+  width: 100%; /* Full width for the input */
+}
+.css-11cvbvj-MuiFormControl-root {
+  margin-top: 13px !important;
+  margin-bottom: 0px !important;
+}
+.error .MuiInputLabel-root {
+  color: white;
+}
+
+.error .MuiOutlinedInput-root {
+  & fieldset {
+      border-color: white;
+  }
+  &:hover fieldset {
+      border-color: white;
+  }
+  &.Mui-focused fieldset {
+      border-color: white;
+  }
+}
+
+.error .MuiFormHelperText-root {
+  color: white;
+}
+.css-zaymjg-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-error .MuiOutlinedInput-notchedOutline{
+  border-color: #fff !important;
+
+}
+.rightBtn{
+ margin-top: 5px !important;
+
+}
+@media (min-width: 768px) and (max-width: 1200px){
+  .user-table table{
+    overflow-wrap: anywhere !important;
+    min-width: 100%;
+  }
+}
+
+
+
+
+
+
+
+
+/* ------------------------------------------------------- */
+
+
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
