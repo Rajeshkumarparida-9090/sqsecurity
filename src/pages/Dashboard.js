@@ -1,15 +1,43 @@
-import { Box, useTheme, useMediaQuery, Grid } from "@mui/material";
-import React from "react";
+import { Box, useTheme, useMediaQuery, Grid, Container, TableContainer, Table, TableHead, TableRow,TableCell,
+  styled,
+  Typography,
+  TableBody,
+  Paper,tableCellClasses, } from "@mui/material";
+import React, { useEffect } from "react";
 import PageHeader from "../reuseableComponents/PageHeader";
 import UserCard from "../reuseableComponents/UserCard";
 import { tokens } from "../theme";
 import { PieChart } from "../reuseableComponents/PieChart";
 import BarChart from "./Barchat";
+import Card from "../reuseableComponents/Card";
+import { fetchTodo } from "../store/slice/UserSlice";
+import { useDispatch,useSelector } from "react-redux";
+import TableHeader from "../reuseableComponents/TableHeader";
 
 const Dashboard = () => {
   const theme = useTheme();
+  const dispatch = useDispatch()
   const smScreen = useMediaQuery(theme.breakpoints.up("sm"));
   const colors = tokens(theme.palette.mode);
+  const tabledata = useSelector((state) => state.users);
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+    "&:last-child td, &:last-child th": {
+      border: 0,
+    },
+  }));
   const usersList = [
     {
       name: "Total Bookings",
@@ -41,6 +69,11 @@ const Dashboard = () => {
     { name: "F", value: 90 },
     { name: "G", value: 55 },
   ];
+
+  useEffect(() => {
+    dispatch(fetchTodo());
+  }, [dispatch]);
+  
 
   return (
     <>
@@ -83,8 +116,15 @@ const Dashboard = () => {
             );
           })}
         </Grid>
-
+        <Box mb={2}>
+        <TableHeader
+          name="Users Chart"
+          // btnName="Add User"
+          // handelClk={handelAddForm}
+        />
+        </Box>
         <Grid container spacing={2}>
+        
           <Grid item xs={12} lg={6} md={6} sm={6}>
             <Box
               width="100%"
@@ -95,7 +135,9 @@ const Dashboard = () => {
               height="100%"
               sx={{ marginBottom: "10px" }}
             >
+              {/* <Card name="Users Chart"> */}
               <PieChart width={300} height={300} />
+              {/* </Card> */}
             </Box>
           </Grid>
           <Grid item xs={12} lg={6} md={6} sm={6}>
@@ -108,10 +150,72 @@ const Dashboard = () => {
               height="100%"
               sx={{ marginBottom: "10px" }}
             >
-              <BarChart data={data} width={300} height={300} />
+              
+              <BarChart data={data} width={200} height={200} />
+              
             </Box>
           </Grid>
         </Grid>
+      </Box>
+      <Box>
+      <Container maxWidth="xl" className="p-3 Adashboard">
+        <TableHeader
+          name="Users List"
+          // btnName="Add User"
+          // handelClk={handelAddForm}
+        />
+        <br />
+        {tabledata.isLoading ? (
+          <p>LOading..........</p>
+        ) : (
+          <Box className="user-table position-relative">
+            <TableContainer className="mt-3" component={Paper}>
+              <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell align="left" className="fw-300">
+                      Emp Id
+                    </StyledTableCell>
+                    <StyledTableCell align="left" className="fw-300">
+                      Name
+                    </StyledTableCell>
+                    <StyledTableCell align="left" className="fw-300">
+                      Phone Number
+                    </StyledTableCell>
+                    <StyledTableCell align="left" className="fw-300">
+                      Email
+                    </StyledTableCell>
+                    <StyledTableCell align="left" className="fw-300">
+                      Job Rule
+                    </StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {tabledata?.data?.map((row, index) => (
+                    <StyledTableRow key={index}>
+                      <StyledTableCell align="left">
+                        <Typography variant="h5">{row?.empId}</Typography>
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        <Typography variant="h5">{row?.name}</Typography>
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        <Typography>{row?.number}</Typography>
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        <Typography>{row?.email}</Typography>
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        <Typography variant="h5">{row?.role}</Typography>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
+        )}
+      </Container>
       </Box>
     </>
   );

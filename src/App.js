@@ -7,6 +7,8 @@ import "./App.css"
 import PublicRoute from "./router/PublicRoute";
 import { Provider } from "react-redux";
 import store from "./store";
+import { Route, Routes } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
 
 
 const App = () => {
@@ -15,20 +17,14 @@ const App = () => {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        
         <MyProSidebarProvider>
-        {/* <Provider store={store}> */}
-        
           <div style={{ height: "100%", width: "100%" }}>
             <main>
               <Header />
               <PublicRoute />
             </main>
           </div>
-          {/* </Provider> */}
-          
         </MyProSidebarProvider>
-        
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
