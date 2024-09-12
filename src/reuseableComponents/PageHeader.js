@@ -7,7 +7,7 @@ const PageHeader = ({title, subtitle}) => {
   const colors = tokens(theme.palette.mode);
   return (
     <>
-      <Box mb="30px">
+      <Box>
         <Typography
           variant="h2"
           color={colors.grey[100]}

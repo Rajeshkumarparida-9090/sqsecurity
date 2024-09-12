@@ -1,37 +1,16 @@
-import {
-    Box,
-    Button,
-    IconButton,
-    Typography,
-    useTheme,
-    useMediaQuery,
-    Grid,
-    Grid2,
-  } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { Icon } from "@iconify/react";
-
-// import ReactApexChart from "react-apexcharts";
-
-
-import { Link } from "react-router-dom";
-// import EmptyDataComponents from "../../reuseableComponents/EmptyDataComponent";
-import Alert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack";
+import { Box, useTheme, useMediaQuery, Grid } from "@mui/material";
+import React from "react";
 import PageHeader from "../reuseableComponents/PageHeader";
 import UserCard from "../reuseableComponents/UserCard";
 import { tokens } from "../theme";
-import HorizontalBarChart from "../reuseableComponents/HorizontalBarChart";
 import { PieChart } from "../reuseableComponents/PieChart";
-
-
-
+import BarChart from "./Barchat";
 
 const Dashboard = () => {
-    const theme = useTheme();
+  const theme = useTheme();
   const smScreen = useMediaQuery(theme.breakpoints.up("sm"));
   const colors = tokens(theme.palette.mode);
-const usersList = [
+  const usersList = [
     {
       name: "Total Bookings",
       price: "121",
@@ -53,75 +32,87 @@ const usersList = [
       color: "#40b539",
     },
   ];
+  const data = [
+    { name: "A", value: 30 },
+    { name: "B", value: 80 },
+    { name: "C", value: 45 },
+    { name: "D", value: 60 },
+    { name: "E", value: 20 },
+    { name: "F", value: 90 },
+    { name: "G", value: 55 },
+  ];
 
   return (
     <>
-    
-    <Box m="20px">
-      {/* HEADER */}
+      <Box m="20px">
+        {/* HEADER */}
 
-      <Box
-        display={smScreen ? "flex" : "block"}
-        flexDirection={smScreen ? "row" : "column"}
-        justifyContent={smScreen ? "space-between" : "start"}
-        alignItems={smScreen ? "center" : "start"}
-        m="10px 0"
-      >
-        <PageHeader title="DASHBOARD" subtitle="Welcome to your dashboard" />
-      </Box>
-      <hr />
-
-      {/* <Grid2 container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}> */}
         <Box
-        // display="flex"
-        // justifyContent="space-between"
-        // width= "100%"
-        // height= "100%"
-        sx={{
-           gridGap: "10px",
-           marginBottom:"10px"
-        }}
+          display={smScreen ? "flex" : "block"}
+          flexDirection={smScreen ? "row" : "column"}
+          justifyContent={smScreen ? "space-between" : "start"}
+          alignItems={smScreen ? "center" : "start"}
+          m="10px 0"
         >
-      {usersList.map((ele,index)=>{
-                return(
-                    <>
-        {/* <Grid2 size={{xs:12, sm:12, md:6, lg:3, xl:3}} sx={{width:"100%"}}> */}
-        <Box
-            width="100%"
-            backgroundColor={colors.primary[400]}
-            // display="flex"
-            // alignItems="center"
-            // justifyContent="center"
-            height="100%"
-            sx={{marginBottom:"10px"}}
-          >
-           
-            <UserCard color={ele?.color} name={ele?.name} price={ele?.price} /> 
-                 
+          <PageHeader title="DASHBOARD" subtitle="Welcome to your dashboard" />
         </Box>
-        {/* </Grid2> */}
-        </>
-                )
-            })}
-            </Box>
-        {/* </Grid2> */}
-        <Box
-    width="100%"
-    backgroundColor={colors.primary[400]}
-    // display="flex"
-    // alignItems="center"
-    // justifyContent="center"
-    height="100%"
-    sx={{marginBottom:"10px"}}
-    >
-        {/* <HorizontalBarChart /> */}
-        <PieChart width={300} height={300} />
-    </Box>
-        
-    </Box>
-    
-      
+        <hr />
 
+        <Grid container spacing={2} marginBottom="10px">
+          {usersList.map((ele, index) => {
+            return (
+              <>
+                <Grid item xs={12} lg={3} md={6} sm={6}>
+                  <Box
+                    width="100%"
+                    backgroundColor={colors.primary[400]}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    height="100%"
+                    sx={{ marginBottom: "10px" }}
+                  >
+                    <UserCard
+                      color={ele?.color}
+                      name={ele?.name}
+                      price={ele?.price}
+                    />
+                  </Box>
+                </Grid>
+              </>
+            );
+          })}
+        </Grid>
+
+        <Grid container spacing={2}>
+          <Grid item xs={12} lg={6} md={6} sm={6}>
+            <Box
+              width="100%"
+              backgroundColor={colors.primary[400]}
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              height="100%"
+              sx={{ marginBottom: "10px" }}
+            >
+              <PieChart width={300} height={300} />
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={6} md={6} sm={6}>
+            <Box
+              width="100%"
+              backgroundColor={colors.primary[400]}
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              height="100%"
+              sx={{ marginBottom: "10px" }}
+            >
+              <BarChart data={data} width={300} height={300} />
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
     </>
   );
 };
