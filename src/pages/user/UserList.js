@@ -1,14 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from "react-redux";
 import { Grid, Container, Box, Divider, Checkbox, TableContainer, Table, TableHead, Menu, MenuItem, IconButton, TableBody, Paper, TableRow, Button, tableCellClasses, TableCell, styled, Typography } from '@mui/material'
 import { Icon } from '@iconify/react'
 import TableHeader from '../../reuseableComponents/TableHeader';
 import Modal from '../Modal';
 import AddForm from './AddForm';
 
+import { clearError, clearSuccess, deleteUser, fetchTodo, userEditTodo } from '../../store/slice/UserSlice';
+import PopUp from '../../reuseableComponents/Popup';
+import SuccessPopup from '../../reuseableComponents/SuccessPopUp';
+import ErrorPopup from '../../reuseableComponents/ErrorPopUp';
+
 const UserList = ()=>{
+    const dispatch =useDispatch();
+    const data = useSelector((state) => state.users);
+   
     const [selectedRows, setSelectedRows] = useState([]);
-    const [openForm, setOpenForm] = useState(false)
+    const [openForm, setOpenForm] = useState(false);
     const [openEditForm, setOpenEditForm] = useState(false)
+    const [success, setSuccess] = useState("false");
+    const [showDeletePopup, setShowDeletePOpup] = useState(false);
+    const [deleteId, setDeleteId] = useState("");
+    const [deleteUserName, setDeleteUserName] = useState("")
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             backgroundColor: theme.palette.common.black,
@@ -53,6 +66,28 @@ const UserList = ()=>{
         { id: 6, name: 'Stark', phone_number: "+919999999999", email: 'Arya@yopmail.com' },
         { id: 7, name: 'Targaryen', phone_number: "+919999999999", email: 'Daenerys@yopmail.com' },
     ];
+    useEffect(() => {
+        dispatch(fetchTodo());
+      }, [dispatch]);
+
+    useEffect(() => {
+        if (data.error) {
+            const errortimer = setTimeout(() => {
+                dispatch(clearError()); 
+            }, 5000);
+
+            return () => clearTimeout(errortimer); 
+        }
+    }, [data.error, dispatch]);
+    useEffect(() => {
+        if (data.isSuccess) {
+            const successtimer = setTimeout(() => {
+                dispatch(clearSuccess());
+            }, 5000);
+
+            return () => clearTimeout(successtimer);
+        }
+    }, [data.isSuccess, dispatch]);
 
     const handelAddForm = ()=>{
         setOpenForm(true)
@@ -61,18 +96,39 @@ const UserList = ()=>{
         setOpenForm(false)
         setOpenEditForm(false)
     }
-    const handelEditForm =()=>{
+    const handelEditForm =(id)=>{
         setOpenEditForm(true)
+        console.log(id)
+        dispatch(userEditTodo(id));
     }
+    const handleFetchTodo = () => {
+        dispatch(fetchTodo());
+        setOpenEditForm(false)
+    }
+    const handelDeleteUser = (row)=>{
+        
+        setDeleteId(row.id)
+        setDeleteUserName(row.name)
+        setShowDeletePOpup(true)
+    }
+    const handelDeletePopupClose =()=>{
+        setShowDeletePOpup(false)
+    }
+    const handelDeletePopupDone =()=>{
+        setShowDeletePOpup(false)
+        dispatch(deleteUser(deleteId))
+    }
+    console.log("data==============", data)
     return(
         <>
             <Container maxWidth="xl" className='p-3 Adashboard'>
                 
                        
-                        <TableHeader name="Attendee List" btnName="Add User" handelClk={handelAddForm} />
+                        <TableHeader name="Users List" btnName="Add User" handelClk={handelAddForm} />
                   
                 <br />
                 
+                {data.isLoading ? <p>LOading</p> :
                         <Box className='user-table position-relative'>
                        
                             <TableContainer className='mt-3' component={Paper}>
@@ -102,7 +158,7 @@ const UserList = ()=>{
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {rows.map((row, index) => (
+                                        {data?.data?.map((row, index) => (
                                             <StyledTableRow key={index}>
                                                 {/* <StyledTableCell align="left">
                                                     <Checkbox
@@ -110,15 +166,15 @@ const UserList = ()=>{
                                                         onChange={() => handleSelectRow(row.id)}
                                                     />
                                                 </StyledTableCell> */}
-                                                <StyledTableCell align="left"><Typography variant='h5'>{row.id}</Typography></StyledTableCell>
-                                                <StyledTableCell align="left"><Typography variant='h5'>{row.name}</Typography></StyledTableCell>
-                                                <StyledTableCell align="left"><Typography>{row.phone_number}</Typography></StyledTableCell>
-                                                <StyledTableCell align="left"><Typography>{row.email}</Typography></StyledTableCell>
+                                                <StyledTableCell align="left"><Typography variant='h5'>{row?.empId}</Typography></StyledTableCell>
+                                                <StyledTableCell align="left"><Typography variant='h5'>{row?.name}</Typography></StyledTableCell>
+                                                <StyledTableCell align="left"><Typography>{row?.number}</Typography></StyledTableCell>
+                                                <StyledTableCell align="left"><Typography>{row?.email}</Typography></StyledTableCell>
                                                 <StyledTableCell align="left"><Typography variant='h5'>{row?.role}</Typography></StyledTableCell>
 
                                                 <StyledTableCell align="center">
-                                                    <Icon icon="fluent:edit-16-regular" className='editDetail me-1' onClick={handelEditForm} /> &nbsp;
-                                                    <Icon icon="icon-park-outline:delete" className='deleteDetail ms-1' />
+                                                    <Icon icon="fluent:edit-16-regular" className='editDetail me-1' onClick={()=>handelEditForm(row.id)} /> &nbsp;
+                                                    <Icon icon="icon-park-outline:delete" className='deleteDetail ms-1' onClick={()=>handelDeleteUser(row)} />
                                                 </StyledTableCell>
                                             </StyledTableRow>
                                         ))}
@@ -127,7 +183,7 @@ const UserList = ()=>{
                             </TableContainer>
                             
                         </Box>
-        
+        }
             </Container>
             {openForm && (
                 <Modal 
@@ -137,10 +193,11 @@ const UserList = ()=>{
                 >
                     <AddForm 
                         submitBtn="Add"
+                        setOpenForm={setOpenForm}
                     />
                 </Modal>
             )}
-            {openEditForm && (
+            {!data.isLoading && openEditForm && (
                 <Modal 
                 open={openEditForm}
                 title="Update User"
@@ -148,8 +205,32 @@ const UserList = ()=>{
                 >
                     <AddForm 
                         submitBtn="update"
+                        userData={data.personalData}
+                        setOpenEditForm={setOpenEditForm}
+                        setSuccess={setSuccess}
+                        success={success}
+                        onSuccess={handleFetchTodo}
                     />
                 </Modal>
+            )}
+            {showDeletePopup && (
+                <PopUp 
+                    open={showDeletePopup}
+                    title="Delete"
+                    description={`Do you want to Delete  ${deleteUserName}`}
+                    handleClose={handelDeletePopupClose}
+                    handleDone={handelDeletePopupDone}
+                />
+            )}
+            {data.error && (
+                <ErrorPopup
+                    message= "Somethong Error"
+                />
+            )}
+            {data.isSuccess && (
+                <SuccessPopup 
+                    message= "Successfull"
+                />
             )}
         </>
     )
