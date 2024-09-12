@@ -40,8 +40,6 @@ import ErrorPopup from "../../reuseableComponents/ErrorPopUp";
 const UserList = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.users);
-
-  const [selectedRows, setSelectedRows] = useState([]);
   const [openForm, setOpenForm] = useState(false);
   const [openEditForm, setOpenEditForm] = useState(false);
   const [success, setSuccess] = useState("false");
@@ -62,20 +60,10 @@ const UserList = () => {
     "&:nth-of-type(odd)": {
       backgroundColor: theme.palette.action.hover,
     },
-    // hide last border
     "&:last-child td, &:last-child th": {
       border: 0,
     },
   }));
-
-  // const handleSelectRow = (rowId) => {
-  //     if (selectedRows.includes(rowId)) {
-  //         setSelectedRows(selectedRows.filter(id => id !== rowId));
-  //         console.log("row-id", rowId)
-  //     } else {
-  //         setSelectedRows([...selectedRows, rowId]);
-  //     }
-  // };
 
   useEffect(() => {
     dispatch(fetchTodo());
@@ -128,7 +116,6 @@ const UserList = () => {
     setShowDeletePOpup(false);
     dispatch(deleteUser(deleteId));
   };
-  console.log("data==============", data);
   return (
     <>
       <Container maxWidth="xl" className="p-3 Adashboard">
@@ -137,31 +124,15 @@ const UserList = () => {
           btnName="Add User"
           handelClk={handelAddForm}
         />
-
         <br />
-
         {data.isLoading ? (
-          <p>LOading</p>
+          <p>LOading..........</p>
         ) : (
           <Box className="user-table position-relative">
             <TableContainer className="mt-3" component={Paper}>
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                   <TableRow>
-                    {/* <StyledTableCell align="left">
-                                                <Checkbox
-
-                                                    indeterminate={selectedRows.length > 0 && selectedRows.length < rows.length}
-                                                    checked={selectedRows.length === rows.length}
-                                                    onChange={() => {
-                                                        if (selectedRows.length === rows.length) {
-                                                            setSelectedRows([]);
-                                                        } else {
-                                                            setSelectedRows(rows.map(row => row.id));
-                                                        }
-                                                    }}
-                                                />
-                                            </StyledTableCell> */}
                     <StyledTableCell align="left" className="fw-300">
                       Emp Id
                     </StyledTableCell>
@@ -185,12 +156,6 @@ const UserList = () => {
                 <TableBody>
                   {data?.data?.map((row, index) => (
                     <StyledTableRow key={index}>
-                      {/* <StyledTableCell align="left">
-                                                    <Checkbox
-                                                        checked={selectedRows.includes(row.id)} 
-                                                        onChange={() => handleSelectRow(row.id)}
-                                                    />
-                                                </StyledTableCell> */}
                       <StyledTableCell align="left">
                         <Typography variant="h5">{row?.empId}</Typography>
                       </StyledTableCell>
@@ -212,12 +177,14 @@ const UserList = () => {
                           icon="fluent:edit-16-regular"
                           className="editDetail me-1"
                           onClick={() => handelEditForm(row.id)}
+                          style={{cursor:"pointer"}}
                         />{" "}
                         &nbsp;
                         <Icon
                           icon="icon-park-outline:delete"
                           className="deleteDetail ms-1"
                           onClick={() => handelDeleteUser(row)}
+                          style={{cursor:"pointer", color:"#ff1313"}}
                         />
                       </StyledTableCell>
                     </StyledTableRow>
@@ -253,7 +220,7 @@ const UserList = () => {
         <PopUp
           open={showDeletePopup}
           title="Delete"
-          description={`Do you want to Delete  ${deleteUserName}`}
+          description={`Do you want to Delete  ${deleteUserName} ?`}
           handleClose={handelDeletePopupClose}
           handleDone={handelDeletePopupDone}
         />

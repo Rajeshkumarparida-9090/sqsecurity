@@ -24,8 +24,8 @@ const PopUp = ({ open, description, title, handleClose, handleDone }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>No</Button>
-          <Button onClick={handleDone}>Yes</Button>
+          <Button onClick={handleClose} style={{color:"#fff", background:"#ff1313"}}>No</Button>
+          <Button onClick={handleDone} style={{color:"#fff", background:"#008000"}}>Yes</Button>
         </DialogActions>
       </Dialog>
     </>
