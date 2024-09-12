@@ -27,11 +27,12 @@
   color: #585A76;
   font-weight: 500;
 }
-/* .field_error {
-  margin-bottom: 15px !important; 
-} */
+.field_error {
+  margin-bottom: 10px !important; 
+}
 .inputField {
   width: 100%; /* Full width for the input */
+  margin-Top: 15px !important; 
 }
 .css-11cvbvj-MuiFormControl-root {
   margin-top: 13px !important;
