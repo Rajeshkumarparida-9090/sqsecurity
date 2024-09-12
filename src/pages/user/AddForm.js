@@ -131,10 +131,6 @@ const AddForm = ({ submitBtn,setOpenForm,edit,userData,setSuccess,success,setOpe
         console.log("values", values);
     },
   });
-//   useEffect(()=>{
-//     setTimeout()
-//     setSuccess(false)
-//   })
   const {
     errors,
     touched,
@@ -149,7 +145,6 @@ const AddForm = ({ submitBtn,setOpenForm,edit,userData,setSuccess,success,setOpe
   return (
     <>
       <Box>
-        {/* <Container maxWidth="xl" className='p-3 Adashboard new-artist-dashboard'> */}
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
             <Grid
@@ -296,14 +291,7 @@ const AddForm = ({ submitBtn,setOpenForm,edit,userData,setSuccess,success,setOpe
             </Grid>
           </Form>
         </FormikProvider>
-        {/* </Container > */}
       </Box>
-      {/* {successModal && (
-                <SuccessModal
-                    open={successModal}
-                    title="Product Added Successfully"
-                />
-            )} */}
     </>
   );
 };

@@ -9,7 +9,6 @@ import UserCard from "../reuseableComponents/UserCard";
 import { tokens } from "../theme";
 import { PieChart } from "../reuseableComponents/PieChart";
 import BarChart from "./Barchat";
-import Card from "../reuseableComponents/Card";
 import { fetchTodo } from "../store/slice/UserSlice";
 import { useDispatch,useSelector } from "react-redux";
 import TableHeader from "../reuseableComponents/TableHeader";
@@ -40,12 +39,12 @@ const Dashboard = () => {
   }));
   const usersList = [
     {
-      name: "Total Bookings",
+      name: "Total Employee",
       price: "121",
       color: "#7489a9",
     },
     {
-      name: "Upcoming Bookings",
+      name: "Total Users",
       price: "58",
       color: "#d74242de",
     },
@@ -56,7 +55,7 @@ const Dashboard = () => {
     },
     {
       name: "Total Revenue",
-      price: "5345.78 $",
+      price: "$ 5345.78",
       color: "#40b539",
     },
   ];
@@ -119,8 +118,6 @@ const Dashboard = () => {
         <Box mb={2}>
         <TableHeader
           name="Users Chart"
-          // btnName="Add User"
-          // handelClk={handelAddForm}
         />
         </Box>
         <Grid container spacing={2}>
@@ -161,8 +158,6 @@ const Dashboard = () => {
       <Container maxWidth="xl" className="p-3 Adashboard">
         <TableHeader
           name="Users List"
-          // btnName="Add User"
-          // handelClk={handelAddForm}
         />
         <br />
         {tabledata.isLoading ? (

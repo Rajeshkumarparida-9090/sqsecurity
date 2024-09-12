@@ -21,9 +21,6 @@ const Header = () => {
         )}
       </Box>
       <Box display="flex">
-        
-        
-       
         <IconButton>
           <PersonOutlinedIcon />
         </IconButton>
