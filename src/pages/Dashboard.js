@@ -1,176 +1,125 @@
-// import { Box, Button, Container } from "@material-ui/core";
 import {
-  Grid,
-  Tab,
-  TableCell,
-  TableRow,
-  Tabs,
-  styled,
-  TableContainer,
-  Table,
-  TableHead,
-  TableBody,
-  Paper,
-  tableCellClasses,
-  TextField,
-  Typography,
-  Box, 
-  Button, 
-  Container
-} from "@mui/material";
+    Box,
+    Button,
+    IconButton,
+    Typography,
+    useTheme,
+    useMediaQuery,
+    Grid,
+    Grid2,
+  } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 
 // import ReactApexChart from "react-apexcharts";
-// import {
-//   ExtraSmallText,
-//   MainheadingText,
-//   ,
-//   SmallText,
-//   SubheadingText,
-// } from "../../components/Text";
-// import {
-//   artist_profile,
-//   blankEvent,
-//   event2,
-//   event_1,
-//   followers2,
-//   followers_1,
-//   revenue2,
-//   revenue_1,
-//   ticket2,
-//   ticket_1,
-// } from "../../utils/Imagepath";
+
+
 import { Link } from "react-router-dom";
 // import EmptyDataComponents from "../../reuseableComponents/EmptyDataComponent";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
+import PageHeader from "../reuseableComponents/PageHeader";
+import UserCard from "../reuseableComponents/UserCard";
+import { tokens } from "../theme";
+import HorizontalBarChart from "../reuseableComponents/HorizontalBarChart";
+import { PieChart } from "../reuseableComponents/PieChart";
 
-// import { artist_profile, event_1, followers_1, revenue_1, ticket_1 } from '../../utils/Imagepath'
 
-const serie = [5000, 8000, 3000, 5000];
-const option = {
-  chart: {
-    type: "donut",
-  },
-  plotOptions: {
-    pie: {
-      donut: {
-        size: "50%",
-      },
-    },
-  },
-};
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-
-const rows = [
-  {
-    // img: artist_profile,
-    text: "Temitope",
-    event: "Event 1",
-    date: "August 5, 2022, 7:30AM",
-    amount: "+9,000.32",
-    company: "Organiser",
-  },
-  {
-    // img: artist_profile,
-    text: "Temitope",
-    event: "Event 2",
-    date: "August 4, 2022, 4:30AM",
-    amount: "+2,000.32",
-    company: "Organiser",
-  },
-  {
-    // img: artist_profile,
-    text: "Temitope",
-    event: "Event 3",
-    date: "July 4, 2022, 7:20AM",
-    amount: "+7,000.32",
-    company: "Organiser",
-  },
-  {
-    // img: artist_profile,
-    text: "Temitope",
-    event: "Event 4",
-    date: "jan 22, 2022, 5:10AM",
-    amount: "+4,000.32",
-    company: "Organiser",
-  },
-];
 
 const Dashboard = () => {
-  const [view, setView] = useState("month");
-  const [value, setValue] = React.useState("one");
-  const [isKYCShow, setIsKYCShow] = useState(false);
-
-  const handleOnChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-
-
-
-  
-  const event = [
+    const theme = useTheme();
+  const smScreen = useMediaQuery(theme.breakpoints.up("sm"));
+  const colors = tokens(theme.palette.mode);
+const usersList = [
     {
-    //   img: event2,
       name: "Total Bookings",
       price: "121",
       color: "#7489a9",
     },
     {
-    //   img: ticket2,
       name: "Upcoming Bookings",
       price: "58",
       color: "#d74242de",
     },
     {
-    //   img: followers2,
       name: "Total Clients",
       price: "18",
       color: "#41afb5",
     },
     {
-    //   img: revenue2,
       name: "Total Revenue",
       price: "5345.78 $",
       color: "#40b539",
     },
   ];
 
-
-
-
-
   return (
     <>
-      <Container
-        maxWidth="xl"
-        className="p-3 Adashboard new-artist-dashboard"
-        style={{ marginTop: "90px", position: "relative"}}
+    
+    <Box m="20px">
+      {/* HEADER */}
+
+      <Box
+        display={smScreen ? "flex" : "block"}
+        flexDirection={smScreen ? "row" : "column"}
+        justifyContent={smScreen ? "space-between" : "start"}
+        alignItems={smScreen ? "center" : "start"}
+        m="10px 0"
       >
+        <PageHeader title="DASHBOARD" subtitle="Welcome to your dashboard" />
+      </Box>
+      <hr />
+
+      {/* <Grid2 container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}> */}
+        <Box
+        // display="flex"
+        // justifyContent="space-between"
+        // width= "100%"
+        // height= "100%"
+        sx={{
+           gridGap: "10px",
+           marginBottom:"10px"
+        }}
+        >
+      {usersList.map((ele,index)=>{
+                return(
+                    <>
+        {/* <Grid2 size={{xs:12, sm:12, md:6, lg:3, xl:3}} sx={{width:"100%"}}> */}
+        <Box
+            width="100%"
+            backgroundColor={colors.primary[400]}
+            // display="flex"
+            // alignItems="center"
+            // justifyContent="center"
+            height="100%"
+            sx={{marginBottom:"10px"}}
+          >
+           
+            <UserCard color={ele?.color} name={ele?.name} price={ele?.price} /> 
+                 
+        </Box>
+        {/* </Grid2> */}
+        </>
+                )
+            })}
+            </Box>
+        {/* </Grid2> */}
+        <Box
+    width="100%"
+    backgroundColor={colors.primary[400]}
+    // display="flex"
+    // alignItems="center"
+    // justifyContent="center"
+    height="100%"
+    sx={{marginBottom:"10px"}}
+    >
+        {/* <HorizontalBarChart /> */}
+        <PieChart width={300} height={300} />
+    </Box>
         
-        <p>rajesh</p>
-      </Container>
+    </Box>
+    
       
 
     </>

@@ -1,7 +1,6 @@
 // docs https://github.com/azouaoui-med/react-pro-sidebar
 import { useState } from "react";
-import { Menu, Sidebar, MenuItem } from "react-pro-sidebar";
-import { useProSidebar } from "react-pro-sidebar";
+import { Menu, Sidebar, MenuItem,useProSidebar } from "react-pro-sidebar";
 
 
 
@@ -31,7 +30,19 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       routerLink={<Link to={to} />}
     >
       <Typography>{title}</Typography>
+      {/* <Link to={to} /> */}
     </MenuItem>
+    // <MenuItem
+    //   active={selected === title}
+    //   style={{
+    //     color: colors.grey[100],
+    //   }}
+    //   onClick={() => setSelected(title)}
+    //   icon={icon}
+    // >
+    //   <Typography>{title}</Typography>
+    //   <Link to={to} />
+    // </MenuItem>
   );
 };
 
@@ -162,28 +173,12 @@ const MyProSidebar = () => {
               Data
             </Typography>
             <Item
-              title="Manage Team"
-              to="/team"
+              title="Users"
+              to="/users"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
-            <Item
-              title="Contacts Information"
-              to="/contacts"
-              icon={<ContactsOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Invoices Balances"
-              to="/invoices"
-              icon={<ReceiptOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
-            
+            />           
           </Box>
         </Menu>
       </Sidebar>
