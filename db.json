@@ -1,14 +1,6 @@
 {
   "users": [
     {
-      "id": "dd80",
-      "name": "Rak",
-      "email": "rk@yahoomail.com",
-      "empId": "Emp212",
-      "number": 7897897489,
-      "role": "role1"
-    },
-    {
       "id": "50f9",
       "name": "ramkrishna",
       "email": "ram@gmail.com",
@@ -38,6 +30,14 @@
       "email": "rd@gmail.com",
       "empId": "emp12",
       "number": 3214569874,
+      "role": "role2"
+    },
+    {
+      "id": "de1f",
+      "name": "new12",
+      "email": "new@gmail.com",
+      "empId": "emp231",
+      "number": 1234567897,
       "role": "role2"
     }
   ]

@@ -1,19 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Box,
   Button,
-  Checkbox,
-  Container,
   Grid,
   TextField,
-  Popover,
   MenuItem,
   Select,
   InputLabel,
-  OutlinedInput,
   FormControl,
-  CircularProgress,
-  Typography,
   FormHelperText,
   styled,
 } from "@mui/material";
@@ -22,17 +16,8 @@ import * as Yup from "yup";
 import { addTodo, updateEditTodo } from "../../store/slice/UserSlice";
 import { useDispatch } from "react-redux";
 
-const AddForm = ({ submitBtn,setOpenForm,edit,userData,setSuccess,success,setOpenEditForm,onSuccess }) => {
-  // const navigate = useNavigate();
+const AddForm = ({ submitBtn,setOpenForm,userData,setSuccess,success,setOpenEditForm,onSuccess }) => {
   const dispatch=useDispatch();
-  const [images, setImages] = useState([]);
-
-  const [secondBtn, setSecondBtn] = useState(false);
-  const [condition, setCondition] = useState(true);
-  const [successModal, setSuccessModal] = useState(false);
-  const [loodingFirstBtn, setLoadingFirstBtn] = useState(false);
-  const [loodingBtn, setLoadingBtn] = useState(false);
-  const [categoryName, setCategoryName] = useState([]); // Initialize categoryId as an empty array
   console.log("userData", userData)
 
   const CustomFormControl = styled(FormControl)(({ theme }) => ({
@@ -44,21 +29,6 @@ const AddForm = ({ submitBtn,setOpenForm,edit,userData,setSuccess,success,setOpe
       fontSize: "13px",
       marginLeft: "0px",
     },
-
-    // "& .MuiInputLabel-root": {
-    //   color: Boolean(errors.role && touched.role) ? "white" : "inherit",
-    // },
-    // "& .MuiOutlinedInput-root": {
-    //   "& fieldset": {
-    //     borderColor: Boolean(errors.role && touched.role) ? "white" : "inherit",
-    //   },
-    //   "&:hover fieldset": {
-    //     borderColor: Boolean(errors.role && touched.role) ? "white" : "inherit",
-    //   },
-    //   "&.Mui-focused fieldset": {
-    //     borderColor: Boolean(errors.role && touched.role) ? "white" : "inherit",
-    //   },
-    // },
   }));
   const BasicDetailSchema = Yup.object().shape({
     name: Yup.string()
@@ -88,20 +58,7 @@ const AddForm = ({ submitBtn,setOpenForm,edit,userData,setSuccess,success,setOpe
       ...userData
     },
     validationSchema: BasicDetailSchema,
-    // onSubmit: async(values) => {
-    //     try {
-    //         userData == undefined ?
-    //         await dispatch(addTodo(values)); // Dispatch the async action
-    //         setOpenForm(false); // Close dialog on success
-    //         :
-    //         await dispatch(addTodo(values)); // Dispatch the async action
-    //         setOpenForm(false); // Close dialog on success
-    //       } catch (error) {
-    //         console.error('Failed to add todo:', error);
-    //       }
 
-    // console.log("values", values)
-    // },
     onSubmit: async (values) => {
         try {
             // Check if userData is undefined
@@ -134,11 +91,7 @@ const AddForm = ({ submitBtn,setOpenForm,edit,userData,setSuccess,success,setOpe
   const {
     errors,
     touched,
-    values,
     handleSubmit,
-    resetForm,
-    handleBlur,
-    isSubmitting,
     getFieldProps,
     setFieldValue,
   } = formik;
@@ -267,26 +220,15 @@ const AddForm = ({ submitBtn,setOpenForm,edit,userData,setSuccess,success,setOpe
                 className=""
                 sx={{ width: "100%", display: "flex", justifyContent: "end" }}
               >
-                {loodingBtn ? (
-                  <Button variant="contained" type="button">
-                    <CircularProgress
-                      color="inherit"
-                      size={25}
-                      sx={{ margin: "2px 32px", display: "block" }}
-                    />
-                  </Button>
-                ) : (
                   <Button
                     variant="contained"
                     onClick={(e) => {
-                      setSecondBtn(true);
                       handleSubmit(e);
                     }}
                     className="rightBtn"
                   >
                     {submitBtn}
                   </Button>
-                )}
               </Grid>
             </Grid>
           </Form>
